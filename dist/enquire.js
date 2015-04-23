@@ -5,22 +5,22 @@
  */
 
 ;(function (name, context, factory) {
-	var matchMedia = window ? window.matchMedia : {};
+    var matchMedia = context.matchMedia;
 
-	if (typeof module !== 'undefined' && module.exports) {
-		module.exports = factory(matchMedia);
-	}
-	else if (typeof define === 'function' && define.amd) {
-		define(function() {
-			return (context[name] = factory(matchMedia));
-		});
-	}
-	else {
-		context[name] = factory(matchMedia);
-	}
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = factory(matchMedia);
+    }
+    else if (typeof define === 'function' && define.amd) {
+        define(function() {
+            return (context[name] = factory(matchMedia));
+        });
+    }
+    else {
+        context[name] = factory(matchMedia);
+    }
 }('enquire', this, function (matchMedia) {
 
-	'use strict';
+    'use strict';
 
     /*jshint unused:false */
     /**
@@ -222,12 +222,10 @@
      * @constructor
      */
     function MediaQueryDispatch () {
-        if(!matchMedia) {
-            throw new Error('matchMedia not present, legacy browsers require a polyfill');
+        if(matchMedia) {
+          this.queries = {};
+          this.browserIsIncapable = !matchMedia('only all').matches;
         }
-
-        this.queries = {};
-        this.browserIsIncapable = !matchMedia('only all').matches;
     }
 
     MediaQueryDispatch.prototype = {
@@ -291,6 +289,6 @@
         }
     };
 
-	return new MediaQueryDispatch();
+    return new MediaQueryDispatch();
 
 }));
