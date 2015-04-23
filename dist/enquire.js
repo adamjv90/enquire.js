@@ -5,7 +5,8 @@
  */
 
 ;(function (name, context, factory) {
-    var matchMedia = context.matchMedia;
+  var matchMedia = {};
+  if (typeof window !== 'undefined') matchMedia = window.matchMedia;
 
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = factory(matchMedia);
@@ -222,7 +223,7 @@
      * @constructor
      */
     function MediaQueryDispatch () {
-        if(matchMedia) {
+        if(matchMedia && typeof window !== 'undefined') {
           this.queries = {};
           this.browserIsIncapable = !matchMedia('only all').matches;
         }
